@@ -28,6 +28,13 @@ public class FligthResource {
         return Flight.findById(id);
     }
 
+@GET
+    @Path("findByTravelOrderId")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Flight findByTravelOrderId (@QueryParam("travelOrderId") Long travelOrderId) {
+        return Flight.findByTravelOrderId(travelOrderId);
+    }
+
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
