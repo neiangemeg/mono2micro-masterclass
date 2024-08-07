@@ -3,10 +3,7 @@ package com.neiangmeg.travelorder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.neiangmeg.flight.Flight;
-import com.neiangmeg.flight.FligthResource;
-import com.neiangmeg.hotel.Hotel;
-import com.neiangmeg.hotel.HotelResource;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -22,20 +19,22 @@ import jakarta.ws.rs.core.MediaType;
 public class TravelOrderResource {
 
     @Inject
-    FligthResource fligthResource;
+    @RestClient
+    FlightService fligthService;
 
     @Inject
-    HotelResource hotelResource;
+    @RestClient
+    HotelService hotelService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TravelOrderDto> orders(){
+    public List<Object> orders(){
         return TravelOrder.<TravelOrder>listAll().stream()
               .map(
-                 order -> TravelOrderDto.of(
+                 order -> TravelOrder.of(
                      order,
-                     fligthResource.findByTravelOrderId(order.id),
-                     hotelResource.findByTravelOrderId(order.id)
+                     fligthService.findByTravelOrderId(order.id),
+                     hotelService.findByTravelOrderId(order.id)
                         )
                  ).collect(Collectors.toList());
 
@@ -50,7 +49,7 @@ public class TravelOrderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public TravelOrder newTravelOrder (TravelOrderDto orderDto) {
+    public TravelOrder newTravelOrder (TravelOrderDTO orderDto) {
 
         TravelOrder order = new TravelOrder();
 
@@ -58,15 +57,15 @@ public class TravelOrderResource {
         order.persist();
 
         Flight flight = new Flight();
-        flight.fromAirport = orderDto.getFromAirport();
-        flight.toAirport = orderDto.getToAirport();
-        flight.travelOrderId = order.id;
-        fligthResource.newFlight(flight);
+        flight.setFromAirport(orderDto.getFromAirport());
+        flight.setToAirport(orderDto.getToAirport());     
+        flight.setTravelOrderId(order.id);
+        fligthService.newFlight(flight);
 
         Hotel hotel = new Hotel();
-        hotel.nights = orderDto.getNights();
-        hotel.travelOrderId = order.id;
-        hotelResource.newHotel(hotel);
+        hotel.setNights(orderDto.getNights());
+        hotel.setTravelOrderId(order.id);  
+        hotelService.newHotel(hotel);
 
         return order;
     }

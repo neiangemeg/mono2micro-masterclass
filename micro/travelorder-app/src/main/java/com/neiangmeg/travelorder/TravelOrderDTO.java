@@ -1,24 +1,24 @@
 package com.neiangmeg.travelorder;
 
-import com.neiangmeg.flight.Flight;
-import com.neiangmeg.hotel.Hotel;
 
-public class TravelOrderDto {
+public class TravelOrderDTO {
 
     private String fromAirport;
     private String toAirport;
     private  Integer nights;
-
-    public TravelOrderDto() {
+  
+    public TravelOrderDTO() {
 
     }
-    private TravelOrderDto ( String fromAirport,String toAirport, Integer nights ) {
-               this.fromAirport = fromAirport;
-               this.toAirport = toAirport;
-               this.nights = nights;
-}
 
-    public static TravelOrderDto of (TravelOrder order, Flight flight , Hotel hotel)   {
+
+    public TravelOrderDTO(String fromAirport, String toAirport, Integer nights) {
+        this.fromAirport = fromAirport;
+        this.toAirport = toAirport;
+        this.nights = nights;
+    }
+
+    public static TravelOrderDTO of (TravelOrder order, Flight flight , Hotel hotel)   {
       
         if (flight == null) {
             flight = new Flight();
@@ -28,11 +28,11 @@ public class TravelOrderDto {
             hotel = new Hotel();
         }
 
-        return new TravelOrderDto( flight.fromAirport, flight.toAirport, hotel.nights );
+        return new TravelOrderDTO( flight.getFromAirport(), flight.getToAirport() , hotel.getNights() );
     } 
 
-    public static TravelOrderDto of (String fromAString, String toString , Integer nights) {
-         return new TravelOrderDto( fromAString , toString , nights);        
+    public static TravelOrderDTO of (String fromAString, String toString , Integer nights) {
+         return new TravelOrderDTO( fromAString , toString , nights);        
     }
 
     public String getFromAirport() {
@@ -60,6 +60,3 @@ public class TravelOrderDto {
     }
 
 }
-
-
-
