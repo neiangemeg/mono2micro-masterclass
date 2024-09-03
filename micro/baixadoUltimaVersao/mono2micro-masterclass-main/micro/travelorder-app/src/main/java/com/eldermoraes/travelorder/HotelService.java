@@ -1,4 +1,4 @@
-package com.neiangmeg.travelorder;
+package com.eldermoraes.travelorder;
 
 import java.time.temporal.ChronoUnit;
 
@@ -15,14 +15,13 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@RegisterRestClient(baseUri = "http://localhost:8082/hotel")
+@RegisterRestClient(baseUri = "http://hotel-app-eldermoraes-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/hotel")
 public interface HotelService {
     
 
     @GET
     @Path("findById")
     @Produces(MediaType.APPLICATION_JSON)
-    @Timeout(unit = ChronoUnit.SECONDS, value = 2)
     public Hotel findById(@QueryParam("id") long id);
 
     @GET

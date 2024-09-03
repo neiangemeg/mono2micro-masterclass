@@ -1,4 +1,4 @@
-package com.neiangmeg.travelorder;
+package com.eldermoraes.travelorder;
 
 import java.time.temporal.ChronoUnit;
 
@@ -15,15 +15,13 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@RegisterRestClient(baseUri = "http://localhost:8082/hotel")
-public interface HotelService {
+@RegisterRestClient(baseUri = "http://flight-app-eldermoraes-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/flight")
+public interface FlightService {
     
-
     @GET
     @Path("findById")
     @Produces(MediaType.APPLICATION_JSON)
-    @Timeout(unit = ChronoUnit.SECONDS, value = 2)
-    public Hotel findById(@QueryParam("id") long id);
+    public Flight findById(@QueryParam("id") long id);
 
     @GET
     @Path("findByTravelOrderId")
@@ -35,19 +33,20 @@ public interface HotelService {
         failureRatio = 0.5,
         delay = 5000,
         successThreshold = 2
-    )
-    public Hotel findByTravelOrderId(@QueryParam("travelOrderId") long travelOrderId);
+    )    
+    public Flight findByTravelOrderId(@QueryParam("travelOrderId") long travelOrderId);
 
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @POST
-    public Hotel newHotel(Hotel hotel);
+    public Flight newFlight(Flight flight);
 
-    default Hotel fallback(long travelOrderId){
-        Hotel hotel = new Hotel();
-        hotel.setNights(-1);
-        hotel.setTravelOrderId(travelOrderId);
-        return hotel;
-    }
+    default Flight fallback(long travelOrderId){
+        Flight flight = new Flight();
+        flight.setFromAirport("");
+        flight.setToAirport("");
+        flight.setTravelOrderId(travelOrderId);
 
+        return flight;
+    }    
 }

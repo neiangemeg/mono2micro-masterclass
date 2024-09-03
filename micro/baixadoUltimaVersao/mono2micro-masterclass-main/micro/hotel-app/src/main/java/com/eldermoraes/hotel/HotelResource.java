@@ -1,4 +1,4 @@
-package com.neianmeg.hotel;
+package com.eldermoraes.hotel;
 
 import java.util.List;
 
@@ -30,9 +30,7 @@ public class HotelResource {
     @GET
     @Path("findByTravelOrderId")
     @Produces(MediaType.APPLICATION_JSON)
-    public Hotel findByTravelOrderId(@QueryParam("travelOrderId") long travelOrderId) {
-//    public Hotel findByTravelOrderId(@QueryParam("travelOrderId") long travelOrderId) throws InterruptedException{
-//        Thread.sleep(3000);
+    public Hotel findByTravelOrderId(@QueryParam("travelOrderId") long travelOrderId){
         return Hotel.findByTravelOrderId(travelOrderId);
     }    
 

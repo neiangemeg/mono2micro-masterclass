@@ -1,9 +1,6 @@
-package com.neiangmeg.travelorder;
+package com.eldermoraes.travelorder;
 
-import java.util.List;
-import java.util.Map;
-
-public class Flight implements Map<Long, List<Flight>> {
+public class Flight {
     
     private Long id;
     private Long travelOrderId;
